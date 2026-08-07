@@ -1,0 +1,1228 @@
+PRODUCT BACKLOG
+ID	Epic	Historia	Prioridad
+EP01	Personas	Administrar Personas Consulta	Alta
+EP02	Personas	Administrar Personal Administrativo	Alta
+EP03	Clientes	Convertir Consulta en Cliente Ejecutivo	Alta
+EP04	Procesos	Administrar Procesos Legales	Alta
+EP05	Finanzas	Administrar Costos y Planes de Pago	Alta
+EP06	Documentos	Generar Contratos y Documentos	Alta
+EP07	Portal Cliente	Acceso Cliente Ejecutivo	Media
+EP08	Seguridad	Usuarios y Roles	Alta
+SPRINT 1
+Personas
+Historia 1
+
+Como Administrador
+
+Quiero registrar una Consulta
+
+Para almacenar un posible cliente.
+
+Criterios
+CRUD Consulta
+Buscar Consulta
+Filtrar
+Validación de correo
+Validación teléfono
+
+Campos
+
+Nombre
+Apellido paterno
+Apellido materno
+Teléfono
+Ciudad
+Email
+Tipo proceso
+Consulta
+Origen
+Forma ingreso
+Colegio/Otros
+Historia 2
+
+CRUD Personal
+
+Secciones
+
+Datos personales
+Nombre
+Apellidos
+CI
+Género
+Fecha nacimiento
+Nacionalidad
+Estado civil
+Profesión
+Contacto
+Teléfono
+WhatsApp
+Email
+Dirección
+Ciudad
+Datos Netley
+Número contrato
+Estado
+Fecha inicio
+Rol
+Especialidad abogado
+Foto
+Nota
+Documentos
+Entregables Sprint 1
+
+✅ CRUD Consulta
+
+✅ CRUD Personal
+
+✅ Carga documentos
+
+✅ Fotos
+
+SPRINT 2
+Cliente Ejecutivo
+
+Historia
+
+Como administrador
+
+Quiero convertir una Consulta en Cliente Ejecutivo
+
+Para iniciar el seguimiento del caso.
+
+Reglas
+
+El Cliente Ejecutivo se crea desde una Consulta.
+
+Debe copiar
+
+Nombre
+Apellidos
+Teléfono
+WhatsApp
+
+Genera
+
+id_cliente
+usuario
+contraseña temporal
+CRUD Cliente Ejecutivo
+
+Datos
+
+ID Cliente
+ID Consulta
+Nombre
+Apellidos
+Teléfono
+WhatsApp
+Entregables Sprint 2
+
+✅ CRUD Cliente Ejecutivo
+
+✅ Conversión Consulta → Cliente
+
+✅ Generación usuario
+
+SPRINT 3
+Dominio Proceso
+
+Historia
+
+Como Administrador
+
+Quiero registrar procesos legales
+
+Para controlar los casos del cliente.
+
+Un Cliente
+
+Tiene
+
+1..N Procesos
+
+Campos
+
+Cliente
+Materia Legal
+Tipo Proceso
+Tiempo proceso (meses)
+
+Ejemplo
+
+Materia
+
+Familiar
+
+Tipo
+
+Divorcio
+Reglas
+
+Un cliente puede tener muchos procesos.
+
+Entregables Sprint 3
+
+✅ CRUD Procesos
+
+✅ Relación Cliente-Proceso
+
+SPRINT 4
+Dominio Finanzas
+
+Historia
+
+Como administrador
+
+Quiero registrar el costo del caso
+
+Para generar un plan de pagos.
+
+Finanzas
+
+Campos
+
+Proceso
+Costo
+Tipo pago
+
+Semanal
+
+Mensual
+
+Plan Pagos
+
+Campos
+
+Fecha
+Monto
+Estado
+Reglas
+
+El número de cuotas
+
+NO puede exceder
+
+Tiempo del proceso.
+
+Ejemplo
+
+Proceso
+
+12 meses
+
+Mensual
+
+Máximo
+
+12 cuotas
+
+Si semanal
+
+Máximo
+
+52 semanas aproximadamente.
+
+Entregables Sprint 4
+
+✅ CRUD Finanzas
+
+✅ Generador Plan Pagos
+
+✅ Validación cuotas
+
+SPRINT 5
+Documentos
+
+Historia
+
+Como administrador
+
+Quiero generar automáticamente documentos
+
+Para evitar redactarlos manualmente.
+
+Documentos
+Contrato de servicios
+Plan de pagos
+Aceptación del cliente
+Ficha del cliente
+Ficha del proceso
+Reglas
+
+El documento debe poder
+
+Descargar PDF
+Imprimir
+Firmar
+Entregables Sprint 5
+
+✅ PDF
+
+✅ Contratos
+
+✅ Plan de pagos
+
+SPRINT 6
+Portal Cliente
+
+Historia
+
+Como Cliente Ejecutivo
+
+Quiero ingresar al sistema
+
+Para revisar mis procesos.
+
+Funciones
+
+Login
+Ver procesos
+Ver pagos
+Descargar documentos
+Ver cronología
+Cambiar contraseña
+Regla importante
+
+Cuando se registra el primer pago de una consulta:
+
+La Consulta cambia de estado.
+Se crea automáticamente el Cliente Ejecutivo.
+Se genera usuario.
+Se genera contraseña temporal.
+Se envía correo y/o WhatsApp con las credenciales.
+El cliente puede ingresar al portal.
+Sprint 6 Entregables
+
+✅ Login Cliente
+
+✅ Dashboard Cliente
+
+✅ Seguimiento Caso
+
+SPRINT 7
+Seguridad
+Roles
+Permisos
+Auditoría
+Bitácora
+Restablecer contraseña
+Bloqueo de usuarios
+Historial de cambios
+MVP (Producto Mínimo Viable)
+
+Para tener una primera versión funcional, el MVP incluiría:
+
+Registro de Consultas.
+Registro de Personal.
+Conversión automática de Consulta a Cliente Ejecutivo con el primer pago.
+Gestión de Procesos.
+Gestión de Finanzas.
+Generación de Plan de Pagos.
+Generación de Contrato y Ficha del Cliente.
+Portal del Cliente Ejecutivo con seguimiento de su caso.
+
+Con estos 7 sprints el equipo Scrum tiene un backlog priorizado por valor de negocio y dependencias, permitiendo entregar funcionalidades utilizables desde el primer incremento.
+
+
+Documento Funcional
+Dominio: AGENDA
+Objetivo
+
+Permitir al Administrador gestionar toda la planificación de actividades de la empresa Netley mediante un calendario centralizado.
+
+Las actividades incluyen:
+
+Citas
+Llamadas
+Reuniones
+
+Cada actividad podrá ser asignada, reprogramada, cancelada o completada.
+
+Actores
+Administrador
+Personal
+Cliente Ejecutivo
+Consulta (Prospecto)
+Relaciones
+Cliente Ejecutivo
+        │
+        │
+        ├──────────────┐
+        │              │
+        │              │
+      Caso         Agenda Cita
+                        │
+                        │
+                  Personal
+
+Consulta
+     │
+     └──────── Agenda Llamada
+
+Administrador
+        │
+        │
+        └──── Agenda Reunión ───── Personal
+                      │
+                      └──── Jefe
+Tipos de Agenda
+1. Agenda Cita
+Objetivo
+
+Registrar citas relacionadas con un Caso.
+
+Siempre nace desde un Caso.
+
+Ejemplo
+
+Caso 0056
+
+↓
+
+Cita
+
+↓
+
+Abogado Juan Pérez
+
+↓
+
+Cliente Ejecutivo Carlos Rojas
+
+Participantes
+Caso
+Cliente Ejecutivo
+Personal
+Campos
+
+Información General
+
+Número Agenda
+Tipo = Cita
+Estado
+Pendiente
+Confirmada
+Reagendada
+Cancelada
+Finalizada
+
+Información de la cita
+
+Caso
+Cliente Ejecutivo
+Profesional asignado
+Fecha
+Hora inicio
+Hora fin
+Modalidad
+Presencial
+Virtual
+
+Lugar
+
+Oficina
+Sala
+Google Meet
+Zoom
+Otro
+
+Descripción
+
+Observaciones
+
+Reglas
+
+Una cita pertenece a un Caso.
+
+Un Caso puede tener muchas citas.
+
+Un Personal puede tener muchas citas.
+
+No debe permitir doble reserva de horario para el mismo Personal.
+
+Debe validar conflictos de horario.
+
+Historia de Usuario
+
+Como Administrador
+
+Quiero agendar una cita
+
+Para asignar un profesional a un caso.
+
+Criterios de aceptación
+Crear cita.
+Editar cita.
+Cancelar cita.
+Reagendar cita.
+Validar horarios.
+Mostrar en calendario.
+Agenda Llamada
+Objetivo
+
+Registrar llamadas realizadas.
+
+Puede originarse desde:
+
+Consulta
+Cliente Ejecutivo
+Participantes
+
+PERSONAL
+
+↓
+
+Consulta
+
+o
+
+Cliente Ejecutivo
+
+Campos
+
+Tipo = Llamada
+Fecha
+Hora
+Duración
+Responsable
+Cliente
+Motivo
+Resultado
+
+Resultado
+
+No contestó
+
+Contestó
+
+Reagendar
+
+Interesado
+
+No interesado
+
+Observaciones
+
+Reglas
+
+Una llamada puede estar relacionada con:
+
+Consulta
+
+o
+
+Cliente Ejecutivo
+
+Nunca ambos al mismo tiempo.
+
+Historia
+
+Como Personal
+
+Quiero registrar llamadas
+
+Para mantener seguimiento del cliente.
+
+Criterios
+
+CRUD
+
+Calendario
+
+Historial
+
+Agenda Reunión
+Objetivo
+
+Registrar reuniones internas.
+
+Participantes
+
+Administrador
+
+Jefe
+
+Personal
+
+Campos
+
+General
+
+Asunto
+Fecha
+Hora Inicio
+Hora Fin
+
+Participantes
+
+Puede seleccionar múltiples usuarios.
+
+Lugar
+
+Modalidad
+
+Presencial
+
+Virtual
+
+Descripción
+
+Documentos adjuntos
+
+Reglas
+
+Una reunión puede tener muchos participantes.
+
+Los participantes deben recibir la invitación.
+
+Todos deben verla en su calendario.
+
+Historia
+
+Como Administrador
+
+Quiero crear reuniones
+
+Para coordinar al equipo.
+
+Criterios
+
+CRUD
+
+Agregar participantes
+
+Editar
+
+Cancelar
+
+Reagendar
+
+Calendario
+
+Calendario
+
+Todos los eventos deberán visualizarse en un calendario.
+
+Se recomienda utilizar el plugin
+
+saade/filament-fullcalendar
+
+para FilamentPHP 4.
+
+El calendario será la vista principal del módulo Agenda.
+
+Funcionalidades
+
+Visualización
+
+Día
+Semana
+Mes
+
+Operaciones
+
+Crear evento
+
+Editar evento
+
+Eliminar evento
+
+Arrastrar evento
+
+Redimensionar duración
+
+Cambiar responsable
+
+Reagendar
+
+Cancelar
+
+Duplicar
+
+Colores sugeridos
+
+🟢 Citas
+
+🔵 Llamadas
+
+🟣 Reuniones
+
+🔴 Canceladas
+
+🟡 Reagendadas
+
+Filtros
+
+Profesional
+Tipo
+Estado
+Cliente
+Caso
+Fecha
+
+Búsqueda
+
+Cliente
+Caso
+Personal
+Modelo de Dominio
+Agenda
+
+id
+
+tipo
+
+estado
+
+fecha_inicio
+
+fecha_fin
+
+descripcion
+
+ubicacion
+
+modalidad
+
+caso_id
+
+consulta_id
+
+cliente_id
+
+responsable_id
+
+created_by
+AgendaParticipantes
+
+id
+
+agenda_id
+
+user_id
+
+rol
+AgendaHistorial
+
+id
+
+agenda_id
+
+usuario_id
+
+accion
+
+fecha
+Reglas de Negocio
+RN-01
+
+Una cita siempre pertenece a un Caso.
+
+RN-02
+
+Una llamada puede pertenecer únicamente a una Consulta o a un Cliente Ejecutivo.
+
+RN-03
+
+Una reunión puede tener múltiples participantes.
+
+RN-04
+
+No puede existir doble reserva para un mismo Profesional en el mismo horario.
+
+RN-05
+
+El cambio de fecha debe registrarse en el historial.
+
+RN-06
+
+Toda actividad debe aparecer automáticamente en el calendario del responsable.
+
+RN-07
+
+Si el evento tiene varios participantes, deberá mostrarse en el calendario de cada uno.
+
+RN-08
+
+Las actividades podrán reagendarse mediante drag & drop desde el calendario (FullCalendar), respetando las validaciones de disponibilidad.
+
+Product Backlog
+ID	Historia	Prioridad
+AG-01	CRUD Agenda Cita	Alta
+AG-02	CRUD Agenda Llamada	Alta
+AG-03	CRUD Agenda Reunión	Alta
+AG-04	Calendario General	Alta
+AG-05	Drag & Drop de eventos	Media
+AG-06	Reagendar eventos	Alta
+AG-07	Validar conflictos de horario	Alta
+AG-08	Historial de cambios	Media
+AG-09	Adjuntar documentos a reuniones	Baja
+AG-10	Filtros y búsqueda avanzada	Media
+AG-11	Vista Día / Semana / Mes	Media
+AG-12	Recordatorios por correo o WhatsApp (integración futura)	Baja
+Sprint sugerido
+Sprint 7 – Agenda
+CRUD Agenda Cita.
+CRUD Agenda Llamada.
+CRUD Agenda Reunión.
+Calendario FullCalendar integrado con FilamentPHP 4.
+Visualización por día, semana y mes.
+Drag & Drop para reprogramación.
+Validación de conflictos de horario.
+Historial de cambios.
+Filtros por responsable, cliente, caso y estado.
+Recomendación técnica para el desarrollador
+
+Para evitar mantener tres módulos separados (Citas, Llamadas y Reuniones), implementen un único modelo Agenda con un campo tipo (cita, llamada, reunion) y relaciones opcionales (caso_id, consulta_id, cliente_id). Los comportamientos específicos pueden resolverse mediante formularios dinámicos y políticas de validación. Esto simplifica el mantenimiento, facilita la integración con Filament FullCalendar y hace más sencillo aplicar permisos posteriormente con Filament Shield.
+
+Perfecto. Con esta aclaración, el Portal del Cliente Ejecutivo no crea información nueva del negocio, sino que consume la información generada por el Administrador y le permite interactuar únicamente con sus propios datos. Esto simplifica el desarrollo porque el portal reutiliza los dominios ya existentes.
+
+Épica: Portal Cliente Ejecutivo
+
+Objetivo
+
+Brindar al Cliente Ejecutivo un portal seguro para consultar el estado de sus procesos, comunicarse con su abogado, gestionar documentos y realizar pagos, reutilizando la información creada desde el Backoffice.
+
+Sprint 8 - Acceso y Dashboard
+Objetivo
+
+Implementar el acceso del Cliente Ejecutivo al sistema.
+
+Historias de Usuario
+
+CE-01 Inicio de sesión
+
+Login.
+Recuperar contraseña.
+Cambio de contraseña.
+Cierre de sesión.
+
+CE-02 Dashboard
+
+Mostrar información resumida obtenida del Backoffice:
+
+Nombre del cliente.
+Abogado patrocinante.
+Número de procesos activos.
+Próxima cita.
+Próximo pago.
+Notificaciones recientes.
+Entregables
+Login.
+Dashboard.
+Perfil del cliente.
+Sprint 9 - Seguimiento del Proceso
+Objetivo
+
+Permitir que el cliente consulte únicamente los procesos que le pertenecen.
+
+Historias
+
+CE-03 Consulta de procesos
+
+Visualizar:
+
+Número de proceso.
+Materia legal.
+Tipo de proceso.
+Estado.
+Tiempo estimado.
+Abogado responsable.
+Fechas importantes.
+Línea de tiempo
+
+Visualizar el historial del proceso:
+
+Consulta registrada.
+Cliente Ejecutivo creado.
+Contrato firmado.
+Demanda presentada.
+Audiencias.
+Resoluciones.
+Estado actual.
+Regla de negocio
+
+El cliente no puede modificar la información del proceso; únicamente visualizarla.
+
+Entregables
+Lista de procesos.
+Detalle del proceso.
+Línea de tiempo.
+Sprint 10 - Chat Interno
+Objetivo
+
+Formalizar la comunicación entre Cliente Ejecutivo y Abogado.
+
+Historias
+
+CE-04 Chat del proceso
+
+Cada proceso tendrá un chat asociado.
+
+El abogado podrá:
+
+Solicitar documentos.
+Enviar mensajes.
+Adjuntar archivos.
+
+El cliente podrá:
+
+Responder mensajes.
+Adjuntar documentos.
+Consultar el historial.
+Regla de negocio
+
+El chat pertenece al proceso y solo podrán acceder:
+
+Cliente Ejecutivo.
+Abogado asignado.
+Entregables
+Chat.
+Adjuntos.
+Historial.
+Notificaciones de nuevos mensajes.
+Sprint 11 - Expediente Digital
+Objetivo
+
+Crear un expediente electrónico para cada proceso.
+
+Historias
+
+CE-05 Expediente del proceso
+
+El cliente podrá consultar todos los documentos asociados a su proceso.
+
+Documentos visibles
+Contratos.
+Poderes.
+Memoriales.
+Resoluciones.
+Demandas.
+Fotografías.
+Pruebas.
+Documentos cargados por el cliente.
+Funcionalidades
+Subir documentos.
+Descargar documentos.
+Vista previa.
+Historial de cargas.
+Solicitudes del abogado
+
+Cuando el abogado solicite un documento:
+
+El cliente recibirá una notificación.
+Podrá subir el archivo directamente al expediente.
+El documento quedará vinculado al proceso.
+Entregables
+Expediente digital.
+Gestión documental.
+Solicitudes de documentos.
+Sprint 12 - Pagos por QR
+Objetivo
+
+Permitir al cliente realizar pagos desde el portal.
+
+Historias
+
+CE-06 Plan de pagos
+
+Visualizar:
+
+Cuotas pendientes.
+Cuotas pagadas.
+Cuotas vencidas.
+Saldo restante.
+
+CE-07 Pago mediante QR
+
+El cliente podrá:
+
+Pagar una cuota programada.
+Adelantar cuotas.
+Pagar cuotas en mora.
+Alcance de este sprint
+Generación y visualización del código QR.
+Biblioteca para almacenar las imágenes QR asociadas a los pagos.
+Registro del intento de pago.
+Actualización del estado pendiente de confirmación.
+Pendiente para una fase posterior
+Integración con la API del proveedor de pagos para confirmar automáticamente la transacción.
+Conciliación automática con el dominio Finanzas.
+Regla de negocio
+
+Mientras no exista integración con la API, el pago quedará registrado como Pendiente de Confirmación.
+
+Entregables
+Plan de pagos.
+Visualización de QR.
+Biblioteca de imágenes QR.
+Registro de pagos pendientes.
+Sprint 13 - Notificaciones
+Objetivo
+
+Centralizar las notificaciones del cliente.
+
+Eventos
+
+Generar notificaciones cuando:
+
+El abogado envía un mensaje.
+El abogado solicita un documento.
+Se carga un nuevo documento al expediente.
+Se agenda o modifica una cita.
+Cambia el estado del proceso.
+Se registra un pago.
+Se genera una nueva cuota.
+Entregables
+Centro de notificaciones.
+Indicadores de mensajes no leídos.
+Historial de notificaciones.
+Backlog del Portal Cliente Ejecutivo
+ID	Historia	Prioridad
+CE-01	Autenticación del Cliente Ejecutivo	Alta
+CE-02	Dashboard del cliente	Alta
+CE-03	Consulta de procesos y seguimiento	Alta
+CE-04	Línea de tiempo del proceso	Alta
+CE-05	Chat interno con el abogado	Alta
+CE-06	Solicitud y carga de documentos	Alta
+CE-07	Expediente digital del proceso	Alta
+CE-08	Consulta del plan de pagos	Alta
+CE-09	Pago mediante QR	Alta
+CE-10	Biblioteca de imágenes QR	Media
+CE-11	Registro de pagos pendientes de confirmación	Media
+CE-12	Centro de notificaciones	Media
+Arquitectura funcional del Portal
+Portal Cliente Ejecutivo
+
+├── Dashboard
+├── Mis Procesos
+│   ├── Detalle del proceso
+│   ├── Línea de tiempo
+│   └── Expediente digital
+├── Chat con mi abogado
+├── Mis Documentos
+├── Finanzas
+│   ├── Plan de pagos
+│   ├── Pagar por QR
+│   └── Historial de pagos
+├── Agenda (solo lectura)
+└── Notificaciones
+Nota técnica para el desarrollador
+
+El Portal del Cliente Ejecutivo no debe tener lógica de negocio propia para crear procesos, finanzas o agendas. Debe actuar como una capa de presentación que consulta los dominios del Backoffice y restringe el acceso únicamente a la información del cliente autenticado. La integración con la API de confirmación de pagos QR queda definida como un punto de extensión para un sprint posterior, por lo que en esta etapa solo se implementará la generación, visualización y registro del pago en estado Pendiente de Confirmación.
+
+Sí, me parece una decisión de diseño adecuada. De hecho, desde el punto de vista funcional y de experiencia de usuario es la mejor opción con la información que tienes actualmente.
+
+Cambio Funcional
+Dominio: Personal
+Épica
+
+Gestión de Credenciales del Personal
+
+Objetivo
+
+Generar automáticamente las credenciales de acceso cuando se registra un nuevo integrante del Personal.
+
+Regla de Negocio RN-PER-01
+
+Al crear un registro de Personal, el sistema generará automáticamente un usuario y una contraseña temporal.
+
+Usuario
+
+Se utilizará el número de teléfono registrado en el formulario.
+
+Ejemplo:
+
+Teléfono: 71234567
+
+Usuario: 71234567
+Contraseña
+
+El sistema generará una contraseña temporal aleatoria.
+
+Ejemplo:
+
+N7t@8Lq2
+
+La contraseña deberá almacenarse utilizando el mecanismo de hash de Laravel; nunca en texto plano.
+
+RN-PER-02
+
+En el primer inicio de sesión, el usuario estará obligado a cambiar la contraseña temporal antes de acceder al sistema.
+
+Mientras no cambie su contraseña:
+
+No podrá acceder al Dashboard.
+No podrá acceder a ningún módulo.
+Solo podrá visualizar la pantalla de cambio de contraseña.
+RN-PER-03
+
+El número de teléfono debe ser único dentro del sistema.
+
+No podrán existir dos miembros del Personal con el mismo teléfono.
+
+Cambios en el Formulario
+Sección: Credenciales de Acceso
+
+No será necesario solicitar:
+
+Usuario.
+Contraseña.
+
+Estos datos serán generados automáticamente.
+
+El administrador únicamente visualizará un resumen al finalizar el registro.
+
+Ejemplo:
+
+Usuario generado
+
+71234567
+
+Contraseña temporal
+
+********
+
+También se podrá ofrecer un botón para:
+
+Copiar credenciales.
+Imprimir credenciales.
+Enviar posteriormente por WhatsApp (funcionalidad futura).
+Historia de Usuario
+PER-15
+
+Como Administrador
+
+Quiero que el sistema genere automáticamente las credenciales del Personal
+
+Para evitar errores en la creación de usuarios.
+
+Criterios de aceptación
+El usuario corresponde al número de teléfono.
+La contraseña es temporal y aleatoria.
+El teléfono debe ser único.
+El usuario debe cambiar la contraseña en el primer inicio de sesión.
+El administrador no captura manualmente las credenciales.
+Backlog
+ID	Historia	Prioridad
+PER-15	Generación automática de usuario	Alta
+PER-16	Generación de contraseña temporal	Alta
+PER-17	Obligar cambio de contraseña en el primer acceso	Alta
+PER-18	Validar teléfono único	Alta
+PER-19	Mostrar credenciales al finalizar el registro	Media
+Recomendación técnica
+
+Cuando más adelante el dominio Persona sea compartido por Personal, Cliente Ejecutivo y otros tipos de usuarios, conviene que el sistema de autenticación sea independiente de la entidad Persona. Una buena práctica es mantener una tabla users donde el usuario sea el número de teléfono (único), y relacionarla con la persona correspondiente. De esta forma, si en el futuro incorporas autenticación por correo electrónico, autenticación multifactor o inicio de sesión con otros identificadores, no tendrás que modificar el modelo de negocio, sino únicamente la lógica de autenticación. Esta arquitectura también facilitará la integración con Filament Shield para la gestión de roles y permisos.
+
+Estos cambios corresponden al dominio Agenda y pueden incorporarse como una mejora del módulo sin crear un nuevo sprint.
+
+Épica: Mejoras de Visualización y Gestión de Agenda
+Objetivo
+
+Optimizar la visualización de las citas según el rol del usuario, mostrando únicamente la información relevante y facilitando la planificación del trabajo.
+
+Historia AG-13
+Vista Agenda - Administrador
+
+Como Administrador
+
+Quiero visualizar información resumida de cada cita
+
+Para identificar rápidamente quién atenderá la consulta.
+
+En cada evento del calendario mostrar
+Hora.
+Nombre del Consultante.
+Personal (Abogado) asignado.
+
+Ejemplo
+
+09:00
+
+Juan Pérez
+
+Abg. María López
+Historia AG-14
+Filtro por Personal
+
+Como Administrador
+
+Quiero filtrar el calendario por Personal
+
+Para visualizar únicamente las citas asignadas a un profesional específico.
+
+Opciones del filtro
+Todos.
+Abg. Juan Pérez.
+Abg. María López.
+Psicología.
+Trabajo Social.
+Pasante.
+Procurador.
+Resultado
+
+El calendario actualizará los eventos mostrando únicamente las citas del profesional seleccionado.
+
+Historia AG-15
+Vista Agenda - Personal
+
+Como miembro del Personal
+
+Quiero visualizar únicamente mis citas
+
+Para conocer mi agenda diaria.
+
+En cada evento mostrar
+Hora.
+Nombre del Consultante.
+Materia Legal.
+Tipo de Proceso.
+
+Ejemplo
+
+10:30
+
+Juan Pérez
+
+Familiar
+
+Divorcio
+
+El nombre del abogado ya no es necesario en esta vista, porque el usuario autenticado es precisamente quien atenderá la cita.
+
+Reglas de Negocio
+RN-AG-09
+
+La vista del Administrador mostrará todas las citas del sistema.
+
+RN-AG-10
+
+La vista del Personal mostrará únicamente las citas asignadas al usuario autenticado.
+
+RN-AG-11
+
+El Administrador podrá filtrar las citas por Personal.
+
+RN-AG-12
+
+Cada evento del calendario deberá mostrar información resumida para evitar abrir la ficha de la cita únicamente para identificar al cliente o al responsable.
+
+Actualización del Sprint 7 - Agenda
+Nuevos entregables
+Visualización resumida de eventos en el calendario.
+Filtro por Personal para el Administrador.
+Vista personalizada del calendario para el Personal.
+Información contextual en cada cita según el rol del usuario.
+Backlog actualizado
+ID	Historia	Prioridad
+AG-13	Mostrar consultante y personal en eventos del Administrador	Alta
+AG-14	Filtro de calendario por Personal	Alta
+AG-15	Vista personalizada del calendario del Personal	Alta
+Recomendación técnica
+
+Como el proyecto utilizará Filament FullCalendar, es recomendable implementar un único proveedor de eventos y adaptar el contenido mostrado según el rol del usuario autenticado. De esta manera:
+
+Administrador: ve todas las citas y dispone del filtro por Personal.
+Personal: ve únicamente sus propias citas, mostrando el nombre del consultante, la materia legal y el tipo de proceso.
+
+Este enfoque evita duplicar la lógica del calendario y simplifica el mantenimiento cuando se integren los permisos mediante Filament Shield.

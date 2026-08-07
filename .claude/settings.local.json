@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-Command *)",
+      "PowerShell(python -c \"import graphify; print\\('OK'\\)\")",
+      "Bash(graphify export *)",
+      "Bash(graphify query *)",
+      "Artifact",
+      "Bash(php -l \"app/Filament/Resources/Consultas/Pages/ListConsultas.php\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost/netley1.0-main/public/admin/login --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost/ --max-time 5)",
+      "Bash(tasklist)",
+      "Bash(curl -s -o /dev/null -w \"root: %{http_code}\\\\n\" http://localhost/ --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"app: %{http_code}\\\\n\" http://localhost/netley1.0-main/public/ --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"app-index: %{http_code}\\\\n\" http://127.0.0.1/netley1.0-main/public/index.php --max-time 5)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost/netley1.0-main/public/admin/login\" -UseBasicParsing -TimeoutSec 5; Write-Output \"status: $\\($r.StatusCode\\)\" } catch { Write-Output \"error: $\\($_.Exception.Message\\)\" })",
+      "Bash(php artisan *)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(where node *)",
+      "Bash(command -v nvm)",
+      "Read(//c/Program Files/nodejs/**)",
+      "Bash(where.exe node *)",
+      "Bash(node -e \"console.log\\(process.platform, process.arch\\)\")",
+      "Bash(npm ls *)",
+      "Bash(npm view *)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:8000/admin/login --max-time 5)",
+      "Bash(taskkill //F //IM php.exe //FI \"WINDOWTITLE eq artisan*\")",
+      "Bash(netstat -ano)"
+    ]
+  }
+}
