@@ -6,8 +6,12 @@ use App\Enums\CategoriaLegal;
 use App\Enums\EstadoConsulta;
 use App\Enums\FormaIngreso;
 use App\Enums\OrigenConsulta;
+use App\Enums\TipoAgenda;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class Consulta extends Model
 {
@@ -75,5 +79,33 @@ class Consulta extends Model
     public function atendidoPor()
     {
         return $this->belongsTo(Personal::class, 'atendido_por');
+    }
+
+    /**
+     * Datos listos para el informe de la consulta: una fila por cada respuesta
+     * registrada en sus citas, con quién tomó la cita, quién respondió y el
+     * tiempo transcurrido desde el registro de la consulta hasta la respuesta
+     * (métrica prevista para uso futuro).
+     */
+    public function respuestas(): Collection
+    {
+        return $this->agendas()
+            ->where('tipo', TipoAgenda::Cita)
+            ->with(['responsable', 'answers.personal', 'answers.user'])
+            ->get()
+            ->flatMap(fn (Agenda $agenda) => $agenda->answers->map(fn (Answer $answer) => [
+                'tomada_por' => $agenda->responsable?->nombre_completo ?? 'Sin asignar',
+                'fecha_cita' => $agenda->fecha_inicio?->format('d/m/Y H:i'),
+                'respondido_por' => $answer->respondido_por ?? 'Desconocido',
+                'fecha_respuesta' => $answer->created_at?->format('d/m/Y H:i'),
+                'fecha_respuesta_orden' => $answer->created_at,
+                'tiempo_respuesta' => $answer->created_at
+                    ? $this->created_at->diffForHumans($answer->created_at, syntax: CarbonInterface::DIFF_ABSOLUTE)
+                    : null,
+                'contenido' => $answer->respuesta,
+            ]))
+            ->sortByDesc('fecha_respuesta_orden')
+            ->map(fn (array $fila): array => Arr::except($fila, 'fecha_respuesta_orden'))
+            ->values();
     }
 }

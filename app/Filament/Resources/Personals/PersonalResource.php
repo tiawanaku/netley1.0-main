@@ -149,6 +149,10 @@ class PersonalResource extends Resource
                             ->options(EspecialidadAbogado::class)
                             ->native(false)
                             ->visible(fn (Get $get): bool => $get('rol') === RolPersonal::Abogado)
+                            ->required(fn (Get $get): bool => $get('rol') === RolPersonal::Abogado)
+                            ->validationMessages([
+                                'required' => 'La especialidad es obligatoria para el rol de Abogado.',
+                            ])
                             ->columnSpanFull(),
                         FileUpload::make('foto')
                             ->image()

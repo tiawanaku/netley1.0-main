@@ -284,6 +284,7 @@ class ConsultaResource extends Resource
 
                         $agenda->answers()->create([
                             'respuesta' => $data['respuesta'],
+                            'user_id' => auth()->id(),
                         ]);
 
                         Notification::make()
@@ -291,6 +292,13 @@ class ConsultaResource extends Resource
                             ->success()
                             ->send();
                     }),
+                Action::make('informe')
+                    ->label('Informe')
+                    ->icon(Heroicon::OutlinedDocumentText)
+                    ->color('gray')
+                    ->visible(fn (Consulta $record): bool => $record->respuestas()->isNotEmpty())
+                    ->url(fn (Consulta $record): string => route('consultas.informe', $record))
+                    ->openUrlInNewTab(),
                 Action::make('convertir')
                     ->label('Convertir a Cliente Ejecutivo')
                     ->icon(Heroicon::OutlinedUserPlus)

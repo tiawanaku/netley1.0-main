@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function recibosRegistrados()
+    {
+        return $this->hasMany(Recibo::class, 'registrado_por_user_id');
+    }
+
+    public function recibosAnulados()
+    {
+        return $this->hasMany(Recibo::class, 'anulado_por_user_id');
+    }
 }

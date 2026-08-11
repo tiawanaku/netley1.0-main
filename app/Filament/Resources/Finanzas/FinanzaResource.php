@@ -20,9 +20,11 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\URL;
 use UnitEnum;
 
 class FinanzaResource extends Resource
@@ -78,6 +80,13 @@ class FinanzaResource extends Resource
                 TextColumn::make('tipo_pago')
                     ->label('Tipo de pago')
                     ->badge(),
+                TextColumn::make('anticipo')
+                    ->label('Anticipo')
+                    ->money('BOB')
+                    ->placeholder('—'),
+                IconColumn::make('anticipo_confirmado_en')
+                    ->label('Anticipo confirmado')
+                    ->boolean(),
                 TextColumn::make('plan_pagos_count')
                     ->label('Cuotas generadas')
                     ->counts('planPagos'),
@@ -121,8 +130,32 @@ class FinanzaResource extends Resource
                             ->success()
                             ->send();
                     }),
+                Action::make('confirmarAnticipo')
+                    ->label('Confirmar anticipo recibido')
+                    ->icon(Heroicon::OutlinedBanknotes)
+                    ->color('success')
+                    ->visible(fn (Finanza $record): bool => (float) $record->anticipo > 0 && $record->anticipo_confirmado_en === null)
+                    ->requiresConfirmation()
+                    ->modalDescription('Confirma que el anticipo declarado fue efectivamente recibido. Esto emitirá un recibo verificable y ya no podrá modificarse el monto del anticipo.')
+                    ->action(function (Finanza $record): void {
+                        $record->confirmarAnticipo();
+
+                        Notification::make()
+                            ->title('Anticipo confirmado')
+                            ->body('Se emitió el recibo ' . $record->refresh()->recibo?->numero)
+                            ->success()
+                            ->send();
+                    }),
+                Action::make('descargarRecibo')
+                    ->label('Ver recibo del anticipo')
+                    ->icon(Heroicon::OutlinedReceiptPercent)
+                    ->color('gray')
+                    ->visible(fn (Finanza $record): bool => $record->recibo()->exists())
+                    ->url(fn (Finanza $record): string => URL::signedRoute('recibos.verificar', ['recibo' => $record->recibo->identificador]))
+                    ->openUrlInNewTab(),
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->visible(fn (Finanza $record): bool => ! $record->recibo()->exists()),
             ])
             ->toolbarActions([
                 //

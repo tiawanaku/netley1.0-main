@@ -264,6 +264,7 @@ class ConsultaResource extends Resource
 
                         $agenda->answers()->create([
                             'respuesta' => $data['respuesta'],
+                            'personal_id' => Filament::auth()->id(),
                         ]);
 
                         Notification::make()

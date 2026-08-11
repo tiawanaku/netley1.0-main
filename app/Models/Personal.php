@@ -124,6 +124,16 @@ class Personal extends Authenticatable implements FilamentUser, HasName
         return $this->hasMany(Proceso::class, 'abogado_id');
     }
 
+    public function recibosRegistrados()
+    {
+        return $this->hasMany(Recibo::class, 'registrado_por_personal_id');
+    }
+
+    public function recibosAnulados()
+    {
+        return $this->hasMany(Recibo::class, 'anulado_por_personal_id');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $panel->getId() === 'personal' && $this->estado === EstadoPersonal::Activo;

@@ -21,6 +21,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class PlanPagosRelationManager extends RelationManager
 {
@@ -91,17 +92,27 @@ class PlanPagosRelationManager extends RelationManager
                     ->color('success')
                     ->visible(fn (PlanPago $record): bool => $record->estado === EstadoPago::PendienteConfirmacion)
                     ->requiresConfirmation()
-                    ->modalDescription('El cliente registró este pago desde el portal. Confirma que el comprobante es válido.')
+                    ->modalDescription('El cliente registró este pago desde el portal. Confirma que el comprobante es válido. Se emitirá automáticamente un recibo verificable.')
                     ->action(function (PlanPago $record): void {
                         $record->confirmarPago();
 
                         Notification::make()
                             ->title('Pago confirmado')
+                            ->body('Se emitió el recibo ' . $record->refresh()->recibo?->numero)
                             ->success()
                             ->send();
                     }),
-                EditAction::make(),
-                DeleteAction::make(),
+                Action::make('descargarRecibo')
+                    ->label('Ver recibo')
+                    ->icon(Heroicon::OutlinedReceiptPercent)
+                    ->color('gray')
+                    ->visible(fn (PlanPago $record): bool => $record->recibo()->exists())
+                    ->url(fn (PlanPago $record): string => URL::signedRoute('recibos.verificar', ['recibo' => $record->recibo->identificador]))
+                    ->openUrlInNewTab(),
+                EditAction::make()
+                    ->visible(fn (PlanPago $record): bool => ! $record->recibo()->exists()),
+                DeleteAction::make()
+                    ->visible(fn (PlanPago $record): bool => ! $record->recibo()->exists()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

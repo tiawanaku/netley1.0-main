@@ -20,6 +20,7 @@ class Finanza extends Model
         'tipo_pago',
         'anticipo',
         'anticipo_registrado_en',
+        'anticipo_confirmado_en',
     ];
 
     protected function casts(): array
@@ -29,7 +30,36 @@ class Finanza extends Model
             'tipo_pago' => TipoPago::class,
             'anticipo' => 'decimal:2',
             'anticipo_registrado_en' => 'datetime',
+            'anticipo_confirmado_en' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::updating(function (Finanza $finanza): void {
+            if (
+                $finanza->recibo()->exists()
+                && $finanza->isDirty(['anticipo', 'anticipo_registrado_en', 'anticipo_confirmado_en'])
+            ) {
+                throw new RuntimeException('No se puede modificar el anticipo: ya tiene un recibo emitido.');
+            }
+        });
+
+        static::updated(function (Finanza $finanza): void {
+            if (
+                $finanza->wasChanged('anticipo_confirmado_en')
+                && $finanza->anticipo_confirmado_en !== null
+                && ! $finanza->recibo()->exists()
+            ) {
+                Recibo::emitirParaAnticipo($finanza);
+            }
+        });
+
+        static::deleting(function (Finanza $finanza): void {
+            if ($finanza->recibo()->exists()) {
+                throw new RuntimeException('No se puede eliminar una Finanza con un anticipo que ya tiene recibo emitido.');
+            }
+        });
     }
 
     public function proceso()
@@ -40,6 +70,30 @@ class Finanza extends Model
     public function planPagos()
     {
         return $this->hasMany(PlanPago::class);
+    }
+
+    public function recibo()
+    {
+        return $this->hasOne(Recibo::class);
+    }
+
+    /**
+     * Confirma que el anticipo declarado en el formulario fue efectivamente
+     * recibido. Es el único punto que dispara la emisión del recibo del
+     * anticipo (NET-002) — el mero hecho de registrar un monto de anticipo
+     * al crear el caso NO implica que el dinero ya fue recibido.
+     */
+    public function confirmarAnticipo(): void
+    {
+        if ((float) $this->anticipo <= 0) {
+            throw new RuntimeException('Esta Finanza no tiene un anticipo declarado.');
+        }
+
+        if ($this->anticipo_confirmado_en !== null) {
+            throw new RuntimeException('El anticipo de esta Finanza ya fue confirmado.');
+        }
+
+        $this->update(['anticipo_confirmado_en' => now()]);
     }
 
     /**

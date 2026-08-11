@@ -9,6 +9,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 
 class PlanPago extends Model
 {
@@ -36,9 +37,42 @@ class PlanPago extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::updating(function (PlanPago $planPago): void {
+            if (
+                $planPago->recibo()->exists()
+                && $planPago->isDirty(['monto', 'fecha', 'estado'])
+            ) {
+                throw new RuntimeException('No se puede modificar un pago que ya tiene un recibo emitido.');
+            }
+        });
+
+        static::updated(function (PlanPago $planPago): void {
+            if (
+                $planPago->wasChanged('estado')
+                && $planPago->estado === EstadoPago::Pagado
+                && ! $planPago->recibo()->exists()
+            ) {
+                Recibo::emitirParaCuota($planPago);
+            }
+        });
+
+        static::deleting(function (PlanPago $planPago): void {
+            if ($planPago->recibo()->exists()) {
+                throw new RuntimeException('No se puede eliminar un pago que ya tiene un recibo emitido.');
+            }
+        });
+    }
+
     public function finanza()
     {
         return $this->belongsTo(Finanza::class);
+    }
+
+    public function recibo()
+    {
+        return $this->hasOne(Recibo::class);
     }
 
     /**
