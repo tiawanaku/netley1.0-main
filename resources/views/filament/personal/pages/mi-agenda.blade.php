@@ -63,7 +63,21 @@
     </div>
 
     <div style="margin-top: 1.5rem; border-radius: 0.75rem; background: var(--fi-panel-bg, #fff); padding: 1.5rem; box-shadow: 0 1px 2px rgba(0,0,0,.05); border: 1px solid rgba(0,0,0,.05);">
-        <h3 style="font-size: 1rem; font-weight: 600; margin: 0 0 1rem;">Mis casos</h3>
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 1rem;">
+            <h3 style="font-size: 1rem; font-weight: 600; margin: 0;">Mis casos</h3>
+
+            <x-filament::button.group>
+                <x-filament::button size="sm" :outlined="$filtroCasos !== null" wire:click="setFiltroCasos(null)">
+                    Todos
+                </x-filament::button>
+                <x-filament::button size="sm" :outlined="$filtroCasos !== 'pendiente'" wire:click="setFiltroCasos('pendiente')">
+                    Pendientes
+                </x-filament::button>
+                <x-filament::button size="sm" :outlined="$filtroCasos !== 'cerrado'" wire:click="setFiltroCasos('cerrado')">
+                    Cerrados
+                </x-filament::button>
+            </x-filament::button.group>
+        </div>
 
         @forelse ($casos as $caso)
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #f3f4f6; gap: 0.5rem; flex-wrap: wrap;">

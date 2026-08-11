@@ -52,6 +52,16 @@ class MiAgenda extends Page
         return static::$routePath;
     }
 
+    /**
+     * NET-003: filtro de situación para "Mis casos" ('pendiente', 'cerrado' o null = todos).
+     */
+    public ?string $filtroCasos = null;
+
+    public function setFiltroCasos(?string $filtro): void
+    {
+        $this->filtroCasos = $filtro;
+    }
+
     protected function getHeaderWidgets(): array
     {
         return [
@@ -87,6 +97,8 @@ class MiAgenda extends Page
         return $this->getPersonal()
             ->procesos()
             ->with('cliente')
+            ->when($this->filtroCasos === 'pendiente', fn ($query) => $query->pendientes())
+            ->when($this->filtroCasos === 'cerrado', fn ($query) => $query->cerrados())
             ->latest()
             ->get();
     }

@@ -6,6 +6,7 @@ use App\Enums\EstadoConsulta;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,6 +49,29 @@ class Cliente extends Authenticatable implements FilamentUser, HasName
     public function procesos()
     {
         return $this->hasMany(Proceso::class);
+    }
+
+    /**
+     * NET-003: pendiente si tiene al menos un Proceso todavía Activo.
+     */
+    public function scopeConCasosPendientes(Builder $query): Builder
+    {
+        return $query->whereHas('procesos', fn (Builder $query) => $query->pendientes());
+    }
+
+    /**
+     * NET-003: cerrado si no tiene ningún Proceso pendiente. Esto incluye,
+     * por decisión de negocio, a los Clientes Ejecutivos sin ningún Proceso
+     * registrado (no tienen nada pendiente, se listan como Cerrados).
+     */
+    public function scopeConCasosCerrados(Builder $query): Builder
+    {
+        return $query->whereDoesntHave('procesos', fn (Builder $query) => $query->pendientes());
+    }
+
+    public function recibos()
+    {
+        return $this->hasMany(Recibo::class);
     }
 
     public function getNombreCompletoAttribute(): string

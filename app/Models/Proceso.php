@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\CategoriaLegal;
 use App\Enums\EstadoProceso;
 use App\Enums\TipoAgenda;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -28,6 +29,26 @@ class Proceso extends Model
             'materia_legal' => CategoriaLegal::class,
             'estado' => EstadoProceso::class,
         ];
+    }
+
+    /**
+     * NET-003: un Proceso está pendiente mientras esté Activo. Cerrado y
+     * Archivado representan que el caso ya terminó (Archivado nunca se
+     * asigna hoy en ningún flujo, pero de existir cuenta como cerrado).
+     */
+    public function scopePendientes(Builder $query): Builder
+    {
+        return $query->where('estado', EstadoProceso::Activo);
+    }
+
+    public function scopeCerrados(Builder $query): Builder
+    {
+        return $query->where('estado', '!=', EstadoProceso::Activo);
+    }
+
+    public function getEstaCerradoAttribute(): bool
+    {
+        return $this->estado !== EstadoProceso::Activo;
     }
 
     public function cliente()
@@ -58,6 +79,11 @@ class Proceso extends Model
     public function solicitudesDocumento()
     {
         return $this->hasMany(DocumentoSolicitud::class);
+    }
+
+    public function recibos()
+    {
+        return $this->hasMany(Recibo::class);
     }
 
     public function getResumenAttribute(): string
